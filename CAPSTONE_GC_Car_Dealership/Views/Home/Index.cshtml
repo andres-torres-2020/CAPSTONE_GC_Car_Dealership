@@ -1,0 +1,86 @@
+﻿@model List<Car>
+
+<div class="text-center">
+    <h1 class="display-4">Car - CRUD</h1>
+    <p><a href="/api/car">Get all cars from API</a></p>
+</div>
+
+@if (ViewBag != null)
+{
+    <div>@ViewBag.Result</div>
+}
+@if (Model != null)
+{
+    <div>
+        <h3>Search  results:</h3>
+        @if (Model.Count == 0)
+        {
+            <p>No match!</p>
+        }
+        else
+        {
+            <table>
+                <tr>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Year</th>
+                    <th>Color</th>
+                </tr>
+                @foreach (Car car in Model)
+                {
+                    <tr>
+                        <td>@car.Make</td>
+                        <td>@car.Model</td>
+                        <td>@car.Year</td>
+                        <td>@car.Color</td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+}
+<div>
+    Search the API via Home controller :<br />
+    <form action="/Home/GetCars" method="post">
+        <input type="number" name="SearchId" value="" min="1" />
+        <input type="submit" value="Get Car (EF)" />
+    </form>
+</div>
+<div>
+    API (GET) :<br />
+    <form action="/api/Car" method="get">
+        <input type="number" name="id" value=""  min="1"/>
+        <input type="submit" value="Get Car (API)" />
+    </form>
+</div>
+<div>
+    Search using EF : <br />
+    <form action="/Home/GetCars" method="post">
+        <input type="number" name="SearchId" value="" min="1"/>
+        <input type="text" name="SearchMake" value="" />
+        <input type="text" name="SearchModel" value="" />
+        <input type="number" name="SearchYear" value="" min="1990" max="@DateTime.Now.Year" />
+        <input type="text" name="SearchColor" value="" />
+        <input type="submit" value="Find Car (EF)" />
+    </form>
+</div>
+<div>
+    POST using API (does not work)<br />
+    <form action="/api/Car" method="post">
+        <input type="text" name="Make" value="" />
+        <input type="text" name="Model" value="" />
+        <input type="number" name="Year" value="" />
+        <input type="hidden" name="ColorId" value="1" />
+        <input type="submit" value="Add New Car (POST > API)" />
+    </form>
+</div>
+<div>
+    POST using EF <br />
+    <form action="/Home/AddCar" method="post">
+        <input type="text" name="CarMake" value="" />
+        <input type="text" name="CarModel" value="" />
+        <input type="number" name="CarYear" value="" min="1990" max="@DateTime.Now.Year" />
+        <input type="text" name="CarColor" value="" />
+        <input type="submit" value="Add New Car (EF)" />
+    </form>
+</div>
